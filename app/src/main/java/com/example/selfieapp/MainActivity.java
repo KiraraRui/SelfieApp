@@ -17,6 +17,7 @@ import androidx.core.content.ContextCompat;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final int REQUEST_IMAGE_CAPTURE = 1;
     // Here is our objects
     ImageView imageView;
     Button button;
@@ -26,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        imageView = findViewById(R.id.imageview);
+        imageView = findViewById(R.id.imageView);
         button = findViewById(R.id.button);
 
         // Here we requests the camera for runtime permission
@@ -51,9 +52,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestcode, int resultcode, @Nullable Intent data) {
         super.onActivityResult(requestcode, resultcode, data);
-        if (requestcode == 100) {
-            Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-            imageView.setImageBitmap(bitmap);
+        if (requestcode == REQUEST_IMAGE_CAPTURE && resultcode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            imageView.setImageBitmap(imageBitmap);
         }
     }
+
 }
